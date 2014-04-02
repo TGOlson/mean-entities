@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+    <head></head>
+    <body>
+        <article ng-app="testApp">
+            <section ng-controller="PeopleCtrl">
+                <input ng-model="newPerson.name"/>
+                <button ng-click="sendNewPerson()">Try It</button>
+                <ul>
+                    <li ng-repeat="person in people">
+                        {{ person.name }}
+                    </li>
+                </ul>
+            </section>
+        </article>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="testApp.js"></script>
+    </body>
+</html>
