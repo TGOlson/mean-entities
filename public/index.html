@@ -3,14 +3,36 @@
     <head></head>
     <body>
         <article ng-app="testApp">
-            <section ng-controller="PeopleCtrl">
-                <input ng-model="newPerson.name"/>
-                <button ng-click="sendNewPerson()">Try It</button>
+            <section ng-controller="EntityCtrl">
+
+                <form>
+                    
+                    <input type='radio' ng-model='newEntity.type' value='question'> Question <br/>
+                    <input type='radio' ng-model='newEntity.type' value='idea'> Idea <br/>
+                    
+                    <div ng-show='newEntity.type == "idea"'>
+                        <p>Please choose the parent question for this idae.</p>
+                        <select ng-model='newEntity.question' ng-options='question as question.name for question in entities | orderBy: ( predicate = "_id") | filter:{ type:"question"}'></select>
+                    </div>
+
+                </select> <br/>
+                    Name: <input type='text' ng-model="newEntity.name"/><br/>
+                    <button ng-click="sendNewEntity()">Create Entity</button>
+                </form>
+            
+
                 <ul>
-                    <li ng-repeat="person in people">
-                        {{ person.name }}
+                    <li ng-controller='IdeaCtrl' ng-repeat="entity in entities | orderBy: ( predicate = '_id') ">
+                        [{{ entity.type }}] - {{ entity.name }} 
+                        <span ng-if='entity.ideas'>
+                            <a href ng-click='showIdeas(entity)'>{{ entity.ideas.length }} {{ entity.ideas.length === 1 ? 'idea' : 'ideas' }}</a>
+                        </span>
+                        <ul ng-if='entity.ideas' ng-show='showEntityIdeas'>
+                            <li ng-repeat='idea in entity.ideas'>{{ idea.name }}</li>
+                        </ul>
                     </li>
                 </ul>
+
             </section>
         </article>
         <script src="bower_components/angular/angular.js"></script>

@@ -1,26 +1,46 @@
 var app = angular.module('testApp', []);
 
-app.controller('PeopleCtrl', function($scope, $http){
+app.controller('EntityCtrl', function($scope, $http){
 
-  $scope.sendNewPerson = function(){
+  getEntities();
+  
+  $scope.sendNewEntity = function(){
 
-    console.log('model:', $scope.newPerson);
+    var newEntity = $scope.newEntity;
 
-    var newPerson = $scope.newPerson;
-
-    $scope.newPerson = {};
-
-    $http.post('/people', newPerson).success(function(res){
-
+    $http.post('/entities', newEntity).success(function(res){
+      
       if(res === 'success'){
-        $scope.people.push(newPerson)
+        getEntities();
       }
-
+    
     });
+  
+    $scope.newEntity = {};
   };
 
-  $http.get('/people').success(function(res){
-    $scope.people = res;
-  });
+  function getEntities(){
+
+    $http.get('/entities').success(function(res){
+      $scope.entities = res;
+    });
+
+  }
+
+});
+
+app.controller('IdeaCtrl', function($scope){
+
+  $scope.showIdeas = function(entity){
+    console.log('showing ideas for', entity._id)
+
+    if($scope.showEntityIdeas){
+      $scope.showEntityIdeas = false;
+    } else {
+      $scope.showEntityIdeas = true;
+    }
+
+  }
+
 
 });
