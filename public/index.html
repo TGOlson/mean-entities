@@ -3,9 +3,18 @@
     <head></head>
     <body>
         <article ng-app="testApp">
-            <section ng-controller="EntityCtrl">
+            <section ng-controller="EntitiesCtrl">
+
+                    Display: 
+
+                    <input type='radio' ng-model='filterType' value=''> All
+                    <input type='radio' ng-model='filterType' value='question'> Questions
+                    <input type='radio' ng-model='filterType' value='idea'> Ideas
+                    
+                <br/>
 
                 <form>
+                    <h3>Create new</h3>
                     
                     <input type='radio' ng-model='newEntity.type' value='question'> Question <br/>
                     <input type='radio' ng-model='newEntity.type' value='idea'> Idea <br/>
@@ -21,21 +30,48 @@
                 </form>
             
 
+                <h3>All entities</h3>
                 <ul>
-                    <li ng-controller='IdeaCtrl' ng-repeat="entity in entities | orderBy: ( predicate = '_id') ">
-                        [{{ entity.type }}] - {{ entity.name }} 
-                        <span ng-if='entity.ideas'>
+                    <li ng-controller='IdeasCtrl' ng-repeat="entity in entities | orderBy: ( predicate = '_id') | filter:{ type:filterType} ">
+                        [{{ entity.type }}] -  <a href ng-click='showEntityDetails(entity)'>{{ entity.name }}</a> 
+                        <span style='font-size: 11px;' ng-if='entity.ideas'>
                             <a href ng-click='showIdeas(entity)'>{{ entity.ideas.length }} {{ entity.ideas.length === 1 ? 'idea' : 'ideas' }}</a>
                         </span>
                         <ul ng-if='entity.ideas' ng-show='showEntityIdeas'>
-                            <li ng-repeat='idea in entity.ideas'>{{ idea.name }}</li>
+                            <li ng-repeat='idea in entity.ideas'><a href ng-click='showEntityDetails(idea)'>{{ idea.name }}</li></a>
                         </ul>
                     </li>
                 </ul>
 
+
+
+                <div ng-controller='EntityCtrl'>
+
+                    <div style='border: 1px solid black; display: inline-block;' ng-if='entityDetails' >
+                            
+                        <h1>Entity: {{ entityDetails.name }}</h1>
+                        <h4>Type: {{ entityDetails.type }}</h4>
+                        <div ng-if='entityDetails.ideas'>
+                            <p>Associated idea:</p>
+
+                            <ul ng-if='entityDetails.ideas'>
+                                <li ng-repeat='idea in entityDetails.ideas'>
+                                    <a href ng-click='showEntityDetails(idea)'>{{ idea.name }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+        
+
             </section>
+
         </article>
+
+
         <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
         <script src="testApp.js"></script>
     </body>
 </html>

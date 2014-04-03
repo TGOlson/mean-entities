@@ -37,6 +37,28 @@ app.get('/entities', function(req, res){
 
 });
 
+app.get('/entities/:id', function(req, res){
+
+  console.log('req', req.params.id)
+
+  var id = req.params.id;
+
+  if(id[id.length - 1] % 2 == 0){
+
+    console.log('id is even')
+    id = 'blahblah'
+  
+  } 
+
+  entityAction('findById', id).then(function(result){
+    res.send(result)
+  }, function(error){
+    res.send({error: 'something failed'})
+    console.log('error', error)
+  })
+
+});
+
 
 
 app.post('/entities', function(req, res){
