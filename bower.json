@@ -2,7 +2,7 @@
   "name": "MEANtest",
   "version": "0.0.0",
   "authors": [
-    "Amy Chen <amy.chen@mindjet.com>"
+    "Tyler Olson"
   ],
   "license": "MIT",
   "private": true,
@@ -16,5 +16,6 @@
   "dependencies": {
     "angular": "~1.2.15",
     "angular-route": "~1.2.15"
-  }
+  },
+  "directory": "public/lib"
 }
